@@ -26,4 +26,8 @@ app.use('/projectApi',projectRouter)
 app.use(errorHandler)
 
 app.get('/', (req, res) => res.send('Hello World!'))
-app.listen(port, () => console.log(`app is running on port ${port}!`))
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => console.log(`app is running on port ${port}!`))
+}
+
+export default app
