@@ -12,7 +12,8 @@ const port = 3000
 
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173',
+            'https://portfolio-gqbk-git-main-mina4esmat1011-afk-projects.vercel.app'],
     credentials: true
 }))
 app.use(express.json())
