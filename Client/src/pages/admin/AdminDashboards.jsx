@@ -106,6 +106,28 @@ export default function AdminDashboard() {
     setEditingProjectId(project._id)
   }
 
+  const renderDescription = (text) => {
+    if (!text) return null
+    const urlRegex = /(https?:\/\/[^\s]+)/g
+    const parts = text.split(urlRegex)
+    return parts.map((part, index) => {
+      if (/^https?:\/\//.test(part)) {
+        return (
+          <a
+            key={index}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline break-all block mt-1"
+          >
+            {part}
+          </a>
+        )
+      }
+      return <span key={index}>{part}</span>
+    })
+  }
+
   useEffect(() => {
     fetchSkills()
     fetchProjects()
@@ -222,7 +244,7 @@ export default function AdminDashboard() {
             <tr key={project._id} className="border-b">
               <td className="px-4 py-3">{index + 1}</td>
               <td className="px-4 py-3">{project.projectName}</td>
-              <td className="px-4 py-3">{project.projectDesc}</td>
+              <td className="px-4 py-3">{renderDescription(project.projectDesc)}</td>
               <td className="px-4 py-3">
                 <button onClick={() => handleProjectEdit(project)} className="text-blue-600 hover:underline mr-3">
                   Edit

@@ -19,6 +19,28 @@ export default function Projects() {
     fetchProjects()
   }, [])
 
+  const renderDescription = (text) => {
+    if (!text) return null
+    const urlRegex = /(https?:\/\/[^\s]+)/g
+    const parts = text.split(urlRegex)
+    return parts.map((part, index) => {
+      if (/^https?:\/\//.test(part)) {
+        return (
+          <a
+            key={index}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-red-600 hover:text-red-700 underline font-medium break-all block mt-2"
+          >
+            {part}
+          </a>
+        )
+      }
+      return <span key={index}>{part}</span>
+    })
+  }
+
   return (
     <section className="px-8 py-10">
       <h1 className="text-3xl font-serif font-bold border-l-4 border-red-600 pl-4 mb-8">
@@ -37,7 +59,9 @@ export default function Projects() {
               className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm"
             >
               <h3 className="font-bold text-lg mb-1">{project.projectName}</h3>
-              <p className="text-gray-600 text-sm">{project.projectDesc}</p>
+              <p className="text-gray-600 text-sm whitespace-pre-line">
+                {renderDescription(project.projectDesc)}
+              </p>
             </div>
           ))}
         </div>
