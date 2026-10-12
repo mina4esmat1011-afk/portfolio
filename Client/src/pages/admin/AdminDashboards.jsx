@@ -1,7 +1,16 @@
-import { useState,useEffect } from "react"
+import { useState, useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import api from "../../API/axios"
 
 export default function AdminDashboard() {
+  const navigate = useNavigate()
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user")) || null
+    } catch {
+      return null
+    }
+  })
   const [skills, setSkills] = useState([])
   const [skillName, setSkillName] = useState("")
   const [skillDesc, setSkillDesc] = useState("")
@@ -12,22 +21,23 @@ export default function AdminDashboard() {
   const [projectDesc, setProjectDesc] = useState("")
   const [editingProjectId, setEditingProjectId] = useState(null)
 
-  const [errorSkillMsg,seterrorSkillMsg] = useState("")
-  const [errorProjectMsg,seterrorProjectMsg] = useState("")
+  const [errorSkillMsg, seterrorSkillMsg] = useState("")
+  const [errorProjectMsg, seterrorProjectMsg] = useState("")
 
 
   const fetchSkills = async () => {
     try {
       const res = await api.get("/skillApi/getSkill")
-      setSkills(res.data.skills)
+      setSkills(Array.isArray(res.data?.skills) ? res.data.skills : [])
     } catch (err) {
       console.log(err)
+      setSkills([])
     }
   }
 
   const handleSkillSubmit = async () => {
-    if (!skillName.trim()|| !skillDesc.trim()) {
-      seterrorSkillMsg("please fill in an all fields")
+    if (!skillName.trim() || !skillDesc.trim()) {
+      seterrorSkillMsg("please fill in all fields")
       return
     }
     try {
@@ -43,15 +53,20 @@ export default function AdminDashboard() {
       fetchSkills()
     } catch (err) {
       console.log(err)
+      const msg = err.response?.data?.message || "Failed to save skill. Please make sure you are logged in as admin."
+      seterrorSkillMsg(msg)
     }
   }
 
   const handleSkillDelete = async (id) => {
     try {
+      seterrorSkillMsg("")
       await api.delete(`/skillApi/deleteSkill/${id}`)
       fetchSkills()
     } catch (err) {
       console.log(err)
+      const msg = err.response?.data?.message || "Failed to delete skill."
+      seterrorSkillMsg(msg)
     }
   }
 
@@ -64,9 +79,10 @@ export default function AdminDashboard() {
   const fetchProjects = async () => {
     try {
       const res = await api.get("/projectApi/getProjects")
-      setProjects(res.data.projects)
+      setProjects(Array.isArray(res.data?.projects) ? res.data.projects : [])
     } catch (err) {
       console.log(err)
+      setProjects([])
     }
   }
 
@@ -88,15 +104,20 @@ export default function AdminDashboard() {
       fetchProjects()
     } catch (err) {
       console.log(err)
+      const msg = err.response?.data?.message || "Failed to save project. Please make sure you are logged in as admin."
+      seterrorProjectMsg(msg)
     }
   }
 
   const handleProjectDelete = async (id) => {
     try {
+      seterrorProjectMsg("")
       await api.delete(`/projectApi/deleteProject/${id}`)
       fetchProjects()
     } catch (err) {
       console.log(err)
+      const msg = err.response?.data?.message || "Failed to delete project."
+      seterrorProjectMsg(msg)
     }
   }
 
@@ -128,6 +149,13 @@ export default function AdminDashboard() {
     })
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+    setCurrentUser(null)
+    navigate("/login")
+  }
+
   useEffect(() => {
     fetchSkills()
     fetchProjects()
@@ -135,9 +163,31 @@ export default function AdminDashboard() {
 
   return (
     <section className="px-8 py-10">
-      <div className="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-3 rounded mb-6 text-sm">
-  ⚠️ You won't be able to perform any action (add, edit, delete) unless you are logged in as an admin.
-</div>
+      {currentUser ? (
+        <div className="bg-green-50 border border-green-300 text-green-800 px-4 py-3 rounded mb-6 text-sm flex justify-between items-center">
+          <div>
+            ✅ Logged in as: <span className="font-bold">{currentUser.userName}</span> ({currentUser.role})
+          </div>
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1.5 rounded transition-colors"
+          >
+            Logout
+          </button>
+        </div>
+      ) : (
+        <div className="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-3 rounded mb-6 text-sm flex justify-between items-center">
+          <div>
+            ⚠️ You are not logged in. You won't be able to add, edit, or delete items until you log in as admin.
+          </div>
+          <Link
+            to="/login"
+            className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5 rounded font-medium transition-colors"
+          >
+            Go to Login
+          </Link>
+        </div>
+      )}
       <h1 className="text-3xl font-serif font-bold border-l-4 border-red-600 pl-4 mb-8">
         Dashboard - Skills
       </h1>
@@ -179,7 +229,7 @@ export default function AdminDashboard() {
           </tr>
         </thead>
         <tbody>
-          {skills.map((skill, index) => (
+          {(skills || []).map((skill, index) => (
             <tr key={skill._id} className="border-b">
               <td className="px-4 py-3">{index + 1}</td>
               <td className="px-4 py-3">{skill.skillName}</td>
@@ -240,7 +290,7 @@ export default function AdminDashboard() {
           </tr>
         </thead>
         <tbody>
-          {projects.map((project, index) => (
+          {(projects || []).map((project, index) => (
             <tr key={project._id} className="border-b">
               <td className="px-4 py-3">{index + 1}</td>
               <td className="px-4 py-3">{project.projectName}</td>

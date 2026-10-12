@@ -34,10 +34,10 @@ export default function Home() {
   }, []);
 
   return (
-    <section className="px-8 py-16">
+    <section className="px-4 sm:px-8 py-12 sm:py-16 overflow-x-hidden">
       <div className="text-center">
-        <h1 className="text-5xl font-serif font-bold inline-flex items-center gap-3">
-          <span className="w-1 h-10 bg-red-600"></span>
+        <h1 className="text-3xl sm:text-5xl font-serif font-bold inline-flex items-center gap-3">
+          <span className="w-1 h-8 sm:h-10 bg-red-600"></span>
           My portfolio
         </h1>
         <div className="w-40 mx-auto mt-2 flex flex-col gap-1">
@@ -49,15 +49,15 @@ export default function Home() {
           <Progress color="red" progress={45} size="sm" />
           
         </div>
-        <p className="text-gray-500 mt-8 tracking-widest text-sm uppercase p-2">
+        <p className="text-gray-500 mt-8 tracking-widest text-xs sm:text-sm uppercase p-2">
           Full-stack applications built with MongoDB, Express, React and Node.js
         </p>
       </div>
 
-      <div className="flex gap-12 items-start mt-16 max-w-5xl mx-auto">
+      <div className="flex flex-col md:flex-row gap-12 items-center md:items-start mt-12 md:mt-16 max-w-5xl mx-auto">
         
-        <div className="relative flex-shrink-0">
-          <div className="absolute -left-6 -top-4 w-56 h-72 border border-gray-300"></div>
+        <div className="relative flex-shrink-0 mt-4 md:mt-0">
+          <div className="absolute -left-4 sm:-left-6 -top-4 w-56 h-72 border border-gray-300"></div>
 
           <div className="relative w-56 h-72 group overflow-hidden shadow-lg">
             
@@ -101,13 +101,13 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex-1">
-          <h2 className="text-4xl font-serif font-bold inline-flex items-center gap-3 mb-6">
-            <span className="w-1 h-9 bg-red-600"></span>
+        <div className="flex-1 w-full text-left">
+          <h2 className="text-3xl sm:text-4xl font-serif font-bold inline-flex items-center gap-3 mb-6">
+            <span className="w-1 h-8 sm:h-9 bg-red-600"></span>
             HELLO,
           </h2>
 
-          <p ref={paragraphRef} className="text-gray-700 leading-relaxed mb-6">
+          <p ref={paragraphRef} className="text-gray-700 leading-relaxed mb-6 text-sm sm:text-base">
             "I am a Junior MERN Stack Developer with a strong foundation in
             HTML, CSS, and JavaScript. I specialize in building responsive,
             user-friendly web applications using ReactJS, NodeJS, and MongoDB. I have
@@ -118,16 +118,16 @@ export default function Home() {
 
           <hr className="border-gray-300 mb-6" />
 
-          <div className="grid grid-cols-2 gap-y-2 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 sm:gap-y-2 gap-x-4 mb-8 text-sm sm:text-base">
             <p><span className="font-bold">NAME :</span> <span className="text-gray-600">MINA ESMAT</span></p>
             <p><span className="font-bold">Job Title :</span> <span className="text-gray-600">MERN stack Developer</span></p>
             <p><span className="font-bold">Location :</span> <span className="text-gray-600">Cairo</span></p>
             <p><span className="font-bold">Freelancer :</span> <span className="text-gray-600">available for hire</span></p>
             <p><span className="font-bold">Age :</span> <span className="text-gray-600">23 years</span></p>
-            <p><span className="font-bold">Email :</span> <span className="text-gray-600">mina4esmat1011@gmail.com</span></p>
+            <p className="break-all sm:break-normal"><span className="font-bold">Email :</span> <span className="text-gray-600">mina4esmat1011@gmail.com</span></p>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
             <button className="bg-red-600 text-white px-6 py-2 hover:bg-red-700 transition-colors duration-200">
               <a href=""></a>download CV
             </button>
@@ -138,10 +138,10 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="bg-blue-50 py-16 px-8 mt-16">
+      <div className="bg-blue-50 py-12 sm:py-16 px-4 sm:px-8 mt-16">
         <div className="text-center mb-14">
-          <h2 className="text-4xl font-serif font-bold inline-flex items-center gap-3">
-            <span className="w-1 h-9 bg-red-600"></span>
+          <h2 className="text-3xl sm:text-4xl font-serif font-bold inline-flex items-center gap-3">
+            <span className="w-1 h-8 sm:h-9 bg-red-600"></span>
             our service
           </h2>
           <div className="w-40 mx-auto mt-2 flex flex-col gap-1">
@@ -180,7 +180,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="bg-amber-50 py-14 px-8">
+      <div className="bg-amber-50 py-10 sm:py-14 px-4 sm:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-4xl mx-auto text-center">
           <div>
             <div className="text-red-600 text-2xl mb-1">◆</div>

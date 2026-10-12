@@ -20,10 +20,8 @@ const allowedOrigins = [
 
 app.use(cors({
     origin: (origin, callback) => {
-        // Allow requests with no origin (e.g. mobile apps, curl, Postman)
         if (!origin) return callback(null, true);
 
-        // Allow localhost, any Vercel deployment (*.vercel.app), or explicitly allowed origins
         if (
             allowedOrigins.includes(origin) ||
             origin.startsWith('http://localhost:') ||

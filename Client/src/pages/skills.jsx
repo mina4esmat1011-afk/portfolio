@@ -9,9 +9,10 @@ export default function Skills() {
     const fetchSkills = async () => {
       try {
         const res = await api.get("/skillApi/getSkill")
-        setSkills(res.data.skills)
+        setSkills(Array.isArray(res.data?.skills) ? res.data.skills : [])
       } catch (err) {
         console.log(err)
+        setSkills([])
       } finally {
         setLoading(false)
       }
@@ -27,11 +28,11 @@ export default function Skills() {
 
       {loading ? (
         <p className="text-gray-400">Loading...</p>
-      ) : skills.length === 0 ? (
+      ) : !skills || skills.length === 0 ? (
         <p className="text-gray-400">No skills added yet.</p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {skills.map((skill) => (
+          {(skills || []).map((skill) => (
             <div
               key={skill._id}
               className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm"

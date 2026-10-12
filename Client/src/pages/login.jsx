@@ -14,7 +14,12 @@ export default function Login() {
 
     try {
       const res = await api.post("/userApi/login", { email, password })
-      console.log(res.data)
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token)
+      }
+      if (res.data.user) {
+        localStorage.setItem("user", JSON.stringify(res.data.user))
+      }
       navigate("/AdminDashboard")
     } catch (err) {
       const message = err.response?.data?.message || "Something went wrong"

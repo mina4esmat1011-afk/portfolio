@@ -9,9 +9,10 @@ export default function Projects() {
     const fetchProjects = async () => {
       try {
         const res = await api.get("/projectApi/getProjects")
-        setProjects(res.data.projects)
+        setProjects(Array.isArray(res.data?.projects) ? res.data.projects : [])
       } catch (err) {
         console.log(err)
+        setProjects([])
       } finally {
         setLoading(false)
       }
@@ -49,11 +50,11 @@ export default function Projects() {
 
       {loading ? (
         <p className="text-gray-400">Loading...</p>
-      ) : projects.length === 0 ? (
+      ) : !projects || projects.length === 0 ? (
         <p className="text-gray-400">No projects added yet.</p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {projects.map((project) => (
+          {(projects || []).map((project) => (
             <div
               key={project._id}
               className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm"
