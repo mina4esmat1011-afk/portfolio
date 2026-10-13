@@ -128,9 +128,15 @@ export default function Home() {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <button className="bg-red-600 text-white px-6 py-2 hover:bg-red-700 transition-colors duration-200">
-              <a href=""></a>download CV
-            </button>
+            <a
+              href="/Mina_Esmat_CV.pdf"
+              download="Mina_Esmat_CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-red-600 text-white px-6 py-2 hover:bg-red-700 transition-colors duration-200 inline-flex items-center justify-center font-medium"
+            >
+              download CV
+            </a>
             <button className="bg-red-600 text-white px-6 py-2 hover:bg-red-700 transition-colors duration-200">
               Hire Me
             </button>
